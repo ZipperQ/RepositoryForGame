@@ -2,11 +2,11 @@ using UnityEngine;
 using System.Linq;
 using UnityEngine.UI;
 
-// Класс, представляющий инвентарь
+// ГЉГ«Г Г±Г±, ГЇГ°ГҐГ¤Г±ГІГ ГўГ«ГїГѕГ№ГЁГ© ГЁГ­ГўГҐГ­ГІГ Г°Гј
 public class Inventory : MonoBehaviour
 {
     public static Inventory instance;
-    public Transform slotsParent;   // Родитель всех слотов инвентаря
+    public Transform slotsParent;   // ГђГ®Г¤ГЁГІГҐГ«Гј ГўГ±ГҐГµ Г±Г«Г®ГІГ®Гў ГЁГ­ГўГҐГ­ГІГ Г°Гї
 
     private void Awake()
     {
@@ -15,28 +15,28 @@ public class Inventory : MonoBehaviour
 
     public void AddItem(Item item)
     {
-        // Все слоты в детях детей с компонентом InventorySlot (скрипт)
+        // Г‚Г±ГҐ Г±Г«Г®ГІГ» Гў Г¤ГҐГІГїГµ Г¤ГҐГІГҐГ© Г± ГЄГ®Г¬ГЇГ®Г­ГҐГ­ГІГ®Г¬ InventorySlot (Г±ГЄГ°ГЁГЇГІ)
         InventorySlot[] slots = slotsParent.Cast<Transform>()
             .Select(t => t.childCount > 1 ? t.GetChild(1).GetComponent<InventorySlot>() : null)
             .Where(slot => slot != null)
             .ToArray();
 
-        // Все слоты в детях детей с компонентом Image
+        // Г‚Г±ГҐ Г±Г«Г®ГІГ» Гў Г¤ГҐГІГїГµ Г¤ГҐГІГҐГ© Г± ГЄГ®Г¬ГЇГ®Г­ГҐГ­ГІГ®Г¬ Image
         Image[] slotsImage = slotsParent.Cast<Transform>()
             .Select(t => t.childCount > 1 ? t.GetChild(1).GetComponent<Image>() : null)
             .Where(Slot => Slot != null)
             .ToArray();
 
-        // Прохождение всех элементов в slotsImage и установление идентичных спрайтов в соответствующих элементах массива slots
+        // ГЏГ°Г®ГµГ®Г¦Г¤ГҐГ­ГЁГҐ ГўГ±ГҐГµ ГЅГ«ГҐГ¬ГҐГ­ГІГ®Гў Гў slotsImage ГЁ ГіГ±ГІГ Г­Г®ГўГ«ГҐГ­ГЁГҐ ГЁГ¤ГҐГ­ГІГЁГ·Г­Г»Гµ Г±ГЇГ°Г Г©ГІГ®Гў Гў Г±Г®Г®ГІГўГҐГІГ±ГІГўГіГѕГ№ГЁГµ ГЅГ«ГҐГ¬ГҐГ­ГІГ Гµ Г¬Г Г±Г±ГЁГўГ  slots
         for (int i = 0; i < slotsImage.Length; i++)
         {
             slots[i].icon.sprite = slotsImage[i].sprite;
         }
 
-        // Добавление предмета в первую свободную ячейку
+        // Г„Г®ГЎГ ГўГ«ГҐГ­ГЁГҐ ГЇГ°ГҐГ¤Г¬ГҐГІГ  Гў ГЇГҐГ°ГўГіГѕ Г±ГўГ®ГЎГ®Г¤Г­ГіГѕ ГїГ·ГҐГ©ГЄГі
         for (int i = 0; i < slotsImage.Length; i++)
         {
-            if (slots[i].icon.sprite.name == "Слот_0")  // Слот_0 - имя спрайта, обозначающего пустой слот
+            if (slots[i].icon.sprite.name == "Г‘Г«Г®ГІ_0")  // Г‘Г«Г®ГІ_0 - ГЁГ¬Гї Г±ГЇГ°Г Г©ГІГ , Г®ГЎГ®Г§Г­Г Г·Г ГѕГ№ГҐГЈГ® ГЇГіГ±ГІГ®Г© Г±Г«Г®ГІ
             {
                 slots[i].AddItem(item);
                 break;
@@ -44,10 +44,10 @@ public class Inventory : MonoBehaviour
         }
     }
 
-    // Метод для получения количества свободных ячеек
+    // ГЊГҐГІГ®Г¤ Г¤Г«Гї ГЇГ®Г«ГіГ·ГҐГ­ГЁГї ГЄГ®Г«ГЁГ·ГҐГ±ГІГўГ  Г±ГўГ®ГЎГ®Г¤Г­Г»Гµ ГїГ·ГҐГҐГЄ
     public int EmptySlotsCount()
     {
-        // Все слоты в детях детей с компонентом Image
+        // Г‚Г±ГҐ Г±Г«Г®ГІГ» Гў Г¤ГҐГІГїГµ Г¤ГҐГІГҐГ© Г± ГЄГ®Г¬ГЇГ®Г­ГҐГ­ГІГ®Г¬ Image
         Image[] slotsImage = slotsParent.Cast<Transform>()
             .Select(t => t.childCount > 1 ? t.GetChild(1).GetComponent<Image>() : null)
             .Where(Slot => Slot != null)
@@ -56,7 +56,7 @@ public class Inventory : MonoBehaviour
         int n = 0;
         for (int i = 0; i < slotsImage.Length; i++)
         {
-            if (slotsImage[i].sprite.name == "Слот_0") n++;
+            if (slotsImage[i].sprite.name == "Г‘Г«Г®ГІ_0") n++;
         }
 
         return n;
